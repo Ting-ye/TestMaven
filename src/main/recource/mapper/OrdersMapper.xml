@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alibaba.dao.OrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.alibaba.bean.Orders" >
+    <id column="orderId" property="orderid" jdbcType="INTEGER" />
+    <result column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="totalPrice" property="totalprice" jdbcType="REAL" />
+    <result column="orderData" property="orderdata" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderId, userId, totalPrice, orderData
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orders
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.alibaba.bean.Orders" >
+    insert into orders (orderId, userId, totalPrice, 
+      orderData)
+    values (#{orderid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{totalprice,jdbcType=REAL}, 
+      #{orderdata,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.alibaba.bean.Orders" >
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="orderdata != null" >
+        orderData,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="orderdata != null" >
+        #{orderdata,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alibaba.bean.Orders" >
+    update orders
+    <set >
+      <if test="userid != null" >
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="orderdata != null" >
+        orderData = #{orderdata,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alibaba.bean.Orders" >
+    update orders
+    set userId = #{userid,jdbcType=INTEGER},
+      totalPrice = #{totalprice,jdbcType=REAL},
+      orderData = #{orderdata,jdbcType=TIMESTAMP}
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+</mapper>
